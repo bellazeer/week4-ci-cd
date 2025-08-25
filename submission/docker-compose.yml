@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    container_name: employee-api
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/employees
+      - UPLOAD_FOLDER=/app/uploads
+    volumes:
+      - ./:/app
+      - ./uploads:/app/uploads
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: employees-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=employees
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
