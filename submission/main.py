@@ -42,7 +42,7 @@ async def health_check():
 # =========================
 # Excel API
 # =========================
-EXCEL_FILE = "sample_employees.xlsx"
+EXCEL_PATH = "sample_employees.xlsx"
 
 @app.get("/employees")
 async def get_employees():
